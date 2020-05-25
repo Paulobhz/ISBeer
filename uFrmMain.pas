@@ -6,10 +6,10 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
   FMX.Controls.Presentation, FMX.StdCtrls, FMX.Layouts, FMX.TabControl,
-  System.Actions, FMX.ActnList, FMX.Objects;
+  System.Actions, FMX.ActnList, FMX.Objects, FMX.MultiView, FMX.ListBox;
 
 type
-  TForm1 = class(TForm)
+  TfrmMain = class(TForm)
     tbcMain: TTabControl;
     tbiSplash: TTabItem;
     tbiMain: TTabItem;
@@ -23,9 +23,26 @@ type
     actList: TActionList;
     actMain: TChangeTabAction;
     lytMain: TLayout;
-    Rectangle1: TRectangle;
+    rctFundo: TRectangle;
+    lytMToolbar: TLayout;
+    btnHeaderLeft: TButton;
+    pthHeaderLeft: TPath;
+    rctHeader: TRectangle;
+    mtvMenu: TMultiView;
+    rctMtvLogo: TRectangle;
+    imgMtvLogo: TImage;
+    lstMenu: TListBox;
+    item_menu_comparador: TListBoxItem;
+    item_menu_capac: TListBoxItem;
+    item_menu_marcas: TListBoxItem;
+    lblSoftEVersao: TLabel;
+    lblAppName: TLabel;
+    lblToolbar: TLabel;
+    actCapacidades: TChangeTabAction;
     procedure FormCreate(Sender: TObject);
     procedure tmrSplashTimer(Sender: TObject);
+    procedure btnHeaderLeftClick(Sender: TObject);
+    procedure item_menu_capacClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -33,23 +50,37 @@ type
   end;
 
 var
-  Form1: TForm1;
+  frmMain: TfrmMain;
 
 implementation
 
 {$R *.fmx}
 
-procedure TForm1.FormCreate(Sender: TObject);
+procedure TfrmMain.btnHeaderLeftClick(Sender: TObject);
+begin
+  mtvMenu.ShowMaster;
+  mtvMenu.Visible := true;
+end;
+
+procedure TfrmMain.FormCreate(Sender: TObject);
 begin
       TbcMain.ActiveTab   := TbiSplash;
       TbcMain.TabPosition := TTabPosition.None;
+      mtvMenu.HideMaster;
+      mtvMenu.Visible     := false;
 
       //Mostra versão
-//      lblSoftEVersao.Text :='ISMoney by InnerSoft        Versão: '+Versao;
+//      lblSoftEVersao.Text :='ISBeer by InnerSoft        Versão: '+Versao;
 
 end;
 
-procedure TForm1.tmrSplashTimer(Sender: TObject);
+procedure TfrmMain.item_menu_capacClick(Sender: TObject);
+begin
+  mtvMenu.HideMaster;
+  actCapacidades.ExecuteTarget(Sender);
+end;
+
+procedure TfrmMain.tmrSplashTimer(Sender: TObject);
 begin
     tmrSplash.Enabled := false;
     actMain.ExecuteTarget(Sender);

@@ -1,4 +1,4 @@
-object Form1: TForm1
+object frmMain: TfrmMain
   Left = 0
   Top = 0
   Caption = 'frmMain'
@@ -16288,12 +16288,200 @@ object Form1: TForm1
         Size.Height = 531.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 0
-        object Rectangle1: TRectangle
+        object rctFundo: TRectangle
           Align = Client
-          Fill.Color = xFFF6DE6D
+          Fill.Color = xC8D9760D
           Size.Width = 360.000000000000000000
+          Size.Height = 481.000000000000000000
+          Size.PlatformDefault = False
+        end
+        object lytMToolbar: TLayout
+          Align = Top
+          Size.Width = 360.000000000000000000
+          Size.Height = 50.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 0
+          object rctHeader: TRectangle
+            Align = Contents
+            Fill.Color = xC8D9760D
+            Size.Width = 360.000000000000000000
+            Size.Height = 50.000000000000000000
+            Size.PlatformDefault = False
+            object btnHeaderLeft: TButton
+              Align = Left
+              CanFocus = False
+              Size.Width = 50.000000000000000000
+              Size.Height = 50.000000000000000000
+              Size.PlatformDefault = False
+              StyleLookup = 'btnTransparent'
+              TabOrder = 0
+              OnClick = btnHeaderLeftClick
+              object pthHeaderLeft: TPath
+                Align = Center
+                Data.Path = {
+                  1000000000000000000040400000C040010000000000A8410000C04001000000
+                  0000A8410000004101000000000040400000004101000000000040400000C040
+                  000000000000404000003041010000000000A84100003041010000000000A841
+                  0000504101000000000040400000504101000000000040400000304100000000
+                  0000404000008041010000000000A84100008041010000000000A84100009041
+                  0100000000004040000090410100000000004040000080410300000000004040
+                  00008041}
+                Fill.Color = claWhite
+                HitTest = False
+                Size.Width = 30.000000000000000000
+                Size.Height = 30.000000000000000000
+                Size.PlatformDefault = False
+                Stroke.Kind = None
+              end
+            end
+            object lblToolbar: TLabel
+              Align = Contents
+              StyledSettings = [Style]
+              Size.Width = 360.000000000000000000
+              Size.Height = 50.000000000000000000
+              Size.PlatformDefault = False
+              TextSettings.Font.Family = 'Agency FB'
+              TextSettings.Font.Size = 30.000000000000000000
+              TextSettings.FontColor = claWhite
+              TextSettings.HorzAlign = Center
+              Text = 'COMPARADOR'
+              TabOrder = 1
+            end
+          end
+        end
+      end
+      object mtvMenu: TMultiView
+        Size.Width = 250.000000000000000000
+        Size.Height = 531.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 1
+        object rctMtvLogo: TRectangle
+          Align = Client
+          Fill.Color = xFFFF9729
+          Size.Width = 250.000000000000000000
           Size.Height = 531.000000000000000000
           Size.PlatformDefault = False
+          Stroke.Kind = None
+          object imgMtvLogo: TImage
+            MultiResBitmap.Height = 64
+            MultiResBitmap.Width = 64
+            MultiResBitmap = <
+              item
+                Width = 64
+                Height = 64
+                PNG = {
+                  89504E470D0A1A0A0000000D4948445200000040000000400806000000AA6971
+                  DE000000017352474200AECE1CE90000000467414D410000B18F0BFC61050000
+                  035A49444154785EED9A5B72DB300C459D6EAB1F4DB6D5FEA42B6B3EBA972E22
+                  337679A90B05212512141FB21C9D990E0510221EA240DBE9E56410B7DBEDD5FD
+                  5BE39566C379E2D80D64C74B134F0E5E0EE11BC72E2C24FF820435D04D5313A5
+                  05ABA55BB575224C34CB967B6AE9E2642D114B82169B96347F059612B85EAF3F
+                  B53E854EDA7ACF5D81A001C5397981EA2C343F56015CBCF35147D59C882BC41F
+                  AA4CF036B0DB11B908838A08E69E435BC825B85B9EA73BFBEE027393290944DE
+                  63B947BFD725D4DE6FC1D4042510010169A83E24D902E8E499EC0B7460D27E14
+                  84E2A72707BCB202EF4C51DA4F52648383438C4844AE85A5E4B4BD575410FA0B
+                  69E123B9037400EED23736E0AE7FE59CEB7BB7E09EF20F5ECE3B49A0BADA4716
+                  3800FA1AE7BA9F4C40D3AAE0B804583C0639D7F47588A08F4F05F0131968DAA4
+                  001417A149951FF34761EE3ED33B47D3CDEF676D522534FF2ED00216CF7F759E
+                  34FD483AD04F624430A5487C35B12577C03D262D48F26E78F38A5EC091D0B5E3
+                  16C0703C546DC6F4845B38D2843B6BEBFA2D76A8A909C211A0B83BAE5E6FBBC5
+                  83A7052846720A9A46B65467F5144DBEACDCE5313892B3001C0F05DF84358A7E
+                  422B6E24F080519A5028A758B3B5EA45B610AEB5C6A1760092CA415373B11EAE
+                  079416E15005404229DC27D5EFB00B8AD0F667F5C9D54765299AB61B4D235BAA
+                  B37A8A49A408802A536C66B8661414C52434CD262A506DF285EF299C36D90BA6
+                  4EA99105659B85720AB105E1FD205C43E642DBD04E28B507437B800E04C1018A
+                  C9207B32BC092E25BA57F260975300096BA8DE8587FB1C50CA59008E5F966E05
+                  60939FBBBC8653119C1ECAB90338EE020F81F314D8935D0BE03EBFFFC5C88D50
+                  B51386FDCD82FD6A6E5814A30646F56A63E334BEBDFDA32A822691AF0CFAFF31
+                  7828B6816B561700D0044578A7EA139C2E294094BC23F97B40F1B6C38A1865CB
+                  86B2B0A60F113BB0758D90D49A21BBF4000408705D9A5C0E591758D63ED429E0
+                  AB9681A6E6C23EE231F8DB9A3C28DE7E52657112CAC29A1EC85C486E8D50DE05
+                  04012846724BB874575FE727418E5F96660568BD355BAFB746713391C07423D2
+                  C18A5EEBD6086D97EE151D08ED5AD06407B40C48D36B5D4DB183B5A7D39B5E7E
+                  372D34BA083DFD6D5E4C07358A1EC5AE5A7064117A247F72B95CFE03A729A894
+                  A8B760870000000049454E44AE426082}
+                FileName = 'D:\Projetos\ISBeer\Img\IsBeer.png'
+              end>
+            Align = Top
+            Margins.Bottom = 35.000000000000000000
+            Size.Width = 250.000000000000000000
+            Size.Height = 113.000000000000000000
+            Size.PlatformDefault = False
+            WrapMode = Center
+          end
+          object lstMenu: TListBox
+            Align = Scale
+            Position.Y = 158.763641357421900000
+            Size.Width = 250.000000000000000000
+            Size.Height = 254.236328125000000000
+            Size.PlatformDefault = False
+            StyleLookup = 'transparentlistboxstyle'
+            TabOrder = 1
+            CanFocus = False
+            DisableFocusEffect = True
+            DefaultItemStyles.ItemStyle = ''
+            DefaultItemStyles.GroupHeaderStyle = ''
+            DefaultItemStyles.GroupFooterStyle = ''
+            Viewport.Width = 250.000000000000000000
+            Viewport.Height = 254.200000000000000000
+            object item_menu_comparador: TListBoxItem
+              Selectable = False
+              TextSettings.FontColor = claWhite
+              TextSettings.HorzAlign = Center
+              StyledSettings = [Family, Size, Style]
+              TabOrder = 0
+              Text = 'COMPARADOR'
+            end
+            object item_menu_capac: TListBoxItem
+              Selectable = False
+              TextSettings.FontColor = claWhite
+              TextSettings.HorzAlign = Center
+              StyledSettings = [Family, Size, Style]
+              Position.Y = 44.000000000000000000
+              TabOrder = 1
+              Text = 'CAPACIDADES'
+              OnClick = item_menu_capacClick
+            end
+            object item_menu_marcas: TListBoxItem
+              Selectable = False
+              TextSettings.FontColor = claWhite
+              TextSettings.HorzAlign = Center
+              StyledSettings = [Family, Size, Style]
+              Position.Y = 88.000000000000000000
+              TabOrder = 2
+              Text = 'MARCAS'
+            end
+          end
+          object lblSoftEVersao: TLabel
+            Align = Bottom
+            StyledSettings = [Style]
+            Margins.Left = 10.000000000000000000
+            Margins.Bottom = 5.000000000000000000
+            Position.X = 10.000000000000000000
+            Position.Y = 503.000000000000000000
+            Size.Width = 240.000000000000000000
+            Size.Height = 23.000000000000000000
+            Size.PlatformDefault = False
+            TextSettings.Font.Family = 'Agency FB'
+            TextSettings.FontColor = claWhite
+            Text = 'ISBeer by InnerSoft'
+            TabOrder = 2
+          end
+          object lblAppName: TLabel
+            Align = Top
+            StyledSettings = [Style]
+            Margins.Top = -40.000000000000000000
+            Position.Y = 108.000000000000000000
+            Size.Width = 250.000000000000000000
+            Size.Height = 23.000000000000000000
+            Size.PlatformDefault = False
+            TextSettings.Font.Family = 'Agency FB'
+            TextSettings.Font.Size = 30.000000000000000000
+            TextSettings.FontColor = claWhite
+            TextSettings.HorzAlign = Center
+            Text = 'ISBeer'
+            TabOrder = 3
+          end
         end
       end
     end
@@ -16357,15 +16545,19 @@ object Form1: TForm1
   object tmrSplash: TTimer
     Interval = 3000
     OnTimer = tmrSplashTimer
-    Left = 304
-    Top = 449
+    Left = 328
+    Top = 529
   end
   object actList: TActionList
-    Left = 248
-    Top = 456
+    Left = 280
+    Top = 528
     object actMain: TChangeTabAction
       Category = 'Tab'
       Tab = tbiMain
+    end
+    object actCapacidades: TChangeTabAction
+      Category = 'Tab'
+      Tab = tbiCapacidades
     end
   end
 end

@@ -3,10 +3,26 @@ unit uFrmMain;
 interface
 
 uses
-  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
-  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
-  FMX.Controls.Presentation, FMX.StdCtrls, FMX.Layouts, FMX.TabControl,
-  System.Actions, FMX.ActnList, FMX.Objects, FMX.MultiView, FMX.ListBox;
+  FMX.ActnList,
+  FMX.Controls,
+  FMX.Controls.Presentation,
+  FMX.Dialogs,
+  FMX.Forms,
+  FMX.Graphics,
+  FMX.Layouts,
+  FMX.ListBox,
+  FMX.MultiView,
+  FMX.Objects,
+  FMX.StdCtrls,
+  FMX.TabControl,
+  FMX.Types,
+
+  System.Actions,
+  System.Classes,
+  System.SysUtils,
+  System.Types,
+  System.UITypes,
+  System.Variants;
 
 type
   TfrmMain = class(TForm)
@@ -43,6 +59,7 @@ type
     procedure tmrSplashTimer(Sender: TObject);
     procedure btnHeaderLeftClick(Sender: TObject);
     procedure item_menu_capacClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
   public
@@ -51,10 +68,15 @@ type
 
 var
   frmMain: TfrmMain;
-
+  vSoft, vVersionDB: String;
+Const
+  vVersion = '0.00.000';
 implementation
 
 {$R *.fmx}
+
+uses Datamodule;
+
 
 procedure TfrmMain.btnHeaderLeftClick(Sender: TObject);
 begin
@@ -64,13 +86,24 @@ end;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
 begin
-      TbcMain.ActiveTab   := TbiSplash;
-      TbcMain.TabPosition := TTabPosition.None;
+      TbcMain.ActiveTab         := TbiSplash;
+      TbcMain.TabPosition       := TTabPosition.None;
       mtvMenu.HideMaster;
-      mtvMenu.Visible     := false;
+      mtvMenu.Visible           := false;
+
+end;
+
+procedure TfrmMain.FormShow(Sender: TObject);
+begin
+      DataM.qry_configbd.Active := false;
+      DataM.qry_configbd.Active := true;
+      vSoft                     := 'ISBeer';
+      vVersionDB                := DataM.qry_configbd.FieldByName('CONFDB_VERSAO').AsString;
+      //TODO : Comparar versão
+
 
       //Mostra versão
-//      lblSoftEVersao.Text :='ISBeer by InnerSoft        Versão: '+Versao;
+      lblSoftEVersao.Text :=vSoft+' by InnerSoft        Versão: '+vVersion;
 
 end;
 

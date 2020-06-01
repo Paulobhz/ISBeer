@@ -1,14 +1,15 @@
 object DataM: TDataM
   OldCreateOrder = False
+  OnCreate = DataModuleCreate
   Height = 378
   Width = 465
   object FDPhysSQLiteDriverLink1: TFDPhysSQLiteDriverLink
     Left = 360
     Top = 24
   end
-  object FDCon: TFDConnection
+  object FDConn: TFDConnection
     Params.Strings = (
-      'Database=D:\Projetos\ISBeer\DB\DataBase.db'
+      'Database=D:\Projetos\ISBeer\DB\database.db'
       'OpenMode=ReadWrite'
       'DriverID=SQLite')
     LoginPrompt = False
@@ -16,7 +17,7 @@ object DataM: TDataM
     Top = 24
   end
   object qry_configbd: TFDQuery
-    Connection = FDCon
+    Connection = FDConn
     SQL.Strings = (
       'SELECT * FROM TAB_CONFIGDB')
     Left = 40

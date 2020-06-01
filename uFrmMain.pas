@@ -55,11 +55,21 @@ type
     lblAppName: TLabel;
     lblToolbar: TLabel;
     actCapacidades: TChangeTabAction;
+    lytCapacidade: TLayout;
+    tlbCapacidade: TLayout;
+    Rectangle1: TRectangle;
+    btnCapaBack: TButton;
+    Path1: TPath;
+    lblCapacidade: TLabel;
+    btnCapaAdd: TButton;
+    Path2: TPath;
     procedure FormCreate(Sender: TObject);
     procedure tmrSplashTimer(Sender: TObject);
     procedure btnHeaderLeftClick(Sender: TObject);
     procedure item_menu_capacClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure lytMainClick(Sender: TObject);
+    procedure lblCapacidadeClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -75,7 +85,8 @@ implementation
 
 {$R *.fmx}
 
-uses Datamodule;
+uses Datamodule,
+     udm2;
 
 
 procedure TfrmMain.btnHeaderLeftClick(Sender: TObject);
@@ -97,13 +108,14 @@ procedure TfrmMain.FormShow(Sender: TObject);
 begin
       DataM.qry_configbd.Active := false;
       DataM.qry_configbd.Active := true;
+
       vSoft                     := 'ISBeer';
       vVersionDB                := DataM.qry_configbd.FieldByName('CONFDB_VERSAO').AsString;
       //TODO : Comparar versão
 
 
       //Mostra versão
-      lblSoftEVersao.Text :=vSoft+' by InnerSoft        Versão: '+vVersion;
+      lblSoftEVersao.Text :=vSoft+' by InnerSoft    Versão: '+vVersion;
 
 end;
 
@@ -111,6 +123,18 @@ procedure TfrmMain.item_menu_capacClick(Sender: TObject);
 begin
   mtvMenu.HideMaster;
   actCapacidades.ExecuteTarget(Sender);
+end;
+
+procedure TfrmMain.lblCapacidadeClick(Sender: TObject);
+begin
+  actMain.ExecuteTarget(Sender);
+end;
+
+procedure TfrmMain.lytMainClick(Sender: TObject);
+begin
+  mtvMenu.HideMaster;
+  actMain.ExecuteTarget(Sender);
+
 end;
 
 procedure TfrmMain.tmrSplashTimer(Sender: TObject);

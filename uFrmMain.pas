@@ -63,6 +63,13 @@ type
     lblCapacidade: TLabel;
     btnCapaAdd: TButton;
     Path2: TPath;
+    img_aba4_sel: TImage;
+    img_aba4: TImage;
+    img_aba3: TImage;
+    img_aba3_sel: TImage;
+    img_aba1_sel: TImage;
+    img_aba1: TImage;
+    img_Ball: TImage;
     procedure FormCreate(Sender: TObject);
     procedure tmrSplashTimer(Sender: TObject);
     procedure btnHeaderLeftClick(Sender: TObject);

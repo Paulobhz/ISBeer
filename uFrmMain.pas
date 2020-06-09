@@ -22,44 +22,29 @@ uses
   System.SysUtils,
   System.Types,
   System.UITypes,
-  System.Variants;
+  System.Variants, FMX.Ani;
 
 type
   TfrmMain = class(TForm)
     tbcMain: TTabControl;
     tbiSplash: TTabItem;
-    tbiMain: TTabItem;
-    tbiCapacidades: TTabItem;
-    tbiCapaciCad: TTabItem;
-    tbiMarcas: TTabItem;
-    tbiMarcasCad: TTabItem;
+    TabItem1: TTabItem;
+    TabItem3: TTabItem;
+    TabItem2: TTabItem;
     lytSplash: TLayout;
     Label1: TLabel;
     tmrSplash: TTimer;
     actList: TActionList;
-    actMain: TChangeTabAction;
+    actTab1: TChangeTabAction;
     lytMain: TLayout;
     rctFundo: TRectangle;
     lytMToolbar: TLayout;
-    btnHeaderLeft: TButton;
-    pthHeaderLeft: TPath;
     rctHeader: TRectangle;
-    mtvMenu: TMultiView;
-    rctMtvLogo: TRectangle;
-    imgMtvLogo: TImage;
-    lstMenu: TListBox;
-    item_menu_comparador: TListBoxItem;
-    item_menu_capac: TListBoxItem;
-    item_menu_marcas: TListBoxItem;
-    lblSoftEVersao: TLabel;
-    lblAppName: TLabel;
     lblToolbar: TLabel;
-    actCapacidades: TChangeTabAction;
+    actTab3: TChangeTabAction;
     lytCapacidade: TLayout;
     tlbCapacidade: TLayout;
     Rectangle1: TRectangle;
-    btnCapaBack: TButton;
-    Path1: TPath;
     lblCapacidade: TLabel;
     btnCapaAdd: TButton;
     Path2: TPath;
@@ -70,13 +55,15 @@ type
     img_aba1_sel: TImage;
     img_aba1: TImage;
     img_Ball: TImage;
+    img_Pulso: TImage;
+    AnimationPulso: TFloatAnimation;
+    AnimationPulsoW: TFloatAnimation;
+    rctControls: TRectangle;
+    actTab2: TChangeTabAction;
+    lblSoftEVersao: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure tmrSplashTimer(Sender: TObject);
-    procedure btnHeaderLeftClick(Sender: TObject);
-    procedure item_menu_capacClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure lytMainClick(Sender: TObject);
-    procedure lblCapacidadeClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -96,23 +83,16 @@ uses Datamodule,
      udm2;
 
 
-procedure TfrmMain.btnHeaderLeftClick(Sender: TObject);
-begin
-  mtvMenu.ShowMaster;
-  mtvMenu.Visible := true;
-end;
-
 procedure TfrmMain.FormCreate(Sender: TObject);
 begin
       TbcMain.ActiveTab         := TbiSplash;
       TbcMain.TabPosition       := TTabPosition.None;
-      mtvMenu.HideMaster;
-      mtvMenu.Visible           := false;
 
 end;
 
 procedure TfrmMain.FormShow(Sender: TObject);
 begin
+      rctControls.Visible       := false;
       DataM.qry_configbd.Active := false;
       DataM.qry_configbd.Active := true;
 
@@ -126,28 +106,11 @@ begin
 
 end;
 
-procedure TfrmMain.item_menu_capacClick(Sender: TObject);
-begin
-  mtvMenu.HideMaster;
-  actCapacidades.ExecuteTarget(Sender);
-end;
-
-procedure TfrmMain.lblCapacidadeClick(Sender: TObject);
-begin
-  actMain.ExecuteTarget(Sender);
-end;
-
-procedure TfrmMain.lytMainClick(Sender: TObject);
-begin
-  mtvMenu.HideMaster;
-  actMain.ExecuteTarget(Sender);
-
-end;
-
 procedure TfrmMain.tmrSplashTimer(Sender: TObject);
 begin
-    tmrSplash.Enabled := false;
-    actMain.ExecuteTarget(Sender);
+    tmrSplash.Enabled   := false;
+    rctControls.Visible := true;
+    actTab1.ExecuteTarget(Sender);
 end;
 
 end.

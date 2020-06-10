@@ -43,15 +43,15 @@ type
     lblToolbar: TLabel;
     actTab3: TChangeTabAction;
     lytCapacidade: TLayout;
-    tlbCapacidade: TLayout;
+    lytToolCapa: TLayout;
     Rectangle1: TRectangle;
     lblCapacidade: TLabel;
     btnCapaAdd: TButton;
     Path2: TPath;
-    img_aba4_sel: TImage;
-    img_aba4: TImage;
-    img_aba3: TImage;
     img_aba3_sel: TImage;
+    img_aba3: TImage;
+    img_aba2: TImage;
+    img_aba2_sel: TImage;
     img_aba1_sel: TImage;
     img_aba1: TImage;
     img_Ball: TImage;
@@ -61,10 +61,26 @@ type
     rctControls: TRectangle;
     actTab2: TChangeTabAction;
     lblSoftEVersao: TLabel;
+    Layout_aba1: TLayout;
+    Layout_aba2: TLayout;
+    Layout_aba3: TLayout;
+    AnimationBall: TFloatAnimation;
+    lytMarca: TLayout;
+    LytToolMarca: TLayout;
+    rctToolMarca: TRectangle;
+    lblMarcas: TLabel;
+    btnMarcaAdd: TButton;
+    Path1: TPath;
+    rctFundoMarca: TRectangle;
     procedure FormCreate(Sender: TObject);
     procedure tmrSplashTimer(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure Layout_aba1Click(Sender: TObject);
+    procedure AnimationBallFinish(Sender: TObject);
   private
+    procedure SelecionaAba(lyt: Tlayout);
+    procedure PaintIcon(aba: Integer);
+    procedure Pulse(Aba: Integer);
     { Private declarations }
   public
     { Public declarations }
@@ -82,6 +98,23 @@ implementation
 uses Datamodule,
      udm2;
 
+
+procedure TfrmMain.Pulse(Aba : Integer);
+begin
+    img_Pulso.SendToBack;
+    img_Pulso.Parent := TLayout(FrmMain.FindComponent('Layout_aba'+aba.ToString));
+
+    AnimationPulso.Start;
+
+    AnimationPulsoW.StopValue := Layout_aba1.Width;
+    AnimationPulsoW.Start;
+end;
+
+
+procedure TfrmMain.AnimationBallFinish(Sender: TObject);
+begin
+    PaintIcon(AnimationBall.Tag);
+end;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
 begin
@@ -106,11 +139,48 @@ begin
 
 end;
 
+procedure TfrmMain.PaintIcon(aba : Integer);
+begin
+    Img_Ball.Visible := False;
+    TImage(FrmMain.FindComponent('img_aba'+aba.ToString)).Visible        := false;
+    TImage(FrmMain.FindComponent('img_aba'+aba.ToString+'_sel')).Visible := true;
+
+end;
+
+
+procedure TfrmMain.SelecionaAba(lyt : Tlayout);
+Var
+  i : integer;
+begin
+    for I := 1 to 3 do
+    begin
+      TImage(FrmMain.FindComponent('img_aba'+i.ToString)).Visible        := true;
+      TImage(FrmMain.FindComponent('img_aba'+i.ToString+'_sel')).Visible := false;
+    end;
+
+    Img_Ball.Visible := True;
+    AnimationBall.Tag := lyt.Tag;
+    AnimationBall.StopValue := lyt.Position.X + (lyt.Width/2) - (img_ball.Width/2);
+    AnimationBall.Start;
+
+    Pulse(lyt.Tag);
+
+    //Mover TabControl
+    TChangeTabAction(FrmMain.FindComponent('actTab'+Lyt.Tag.ToString)).Execute;
+end;
+
+procedure TfrmMain.Layout_aba1Click(Sender: TObject);
+begin
+    SelecionaAba(Tlayout(Sender));
+end;
+
 procedure TfrmMain.tmrSplashTimer(Sender: TObject);
 begin
     tmrSplash.Enabled   := false;
     rctControls.Visible := true;
-    actTab1.ExecuteTarget(Sender);
+    FrmMain.Fill.Kind   := TBrushKind.Solid;
+    FrmMain.Fill.Color  := $C8D9760D;
+    SelecionaAba(Layout_aba1);
 end;
 
 end.

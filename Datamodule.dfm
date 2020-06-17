@@ -37,4 +37,35 @@ object DataM: TDataM
       Origin = 'CONFDB_DATA'
     end
   end
+  object qry_Marcas: TFDQuery
+    Connection = FDConn
+    SQL.Strings = (
+      'SELECT * FROM TAB_MARCAS')
+    Left = 216
+    Top = 96
+    object qry_MarcasID_MARCAS: TIntegerField
+      FieldName = 'ID_MARCAS'
+      Origin = 'ID_MARCAS'
+    end
+    object qry_MarcasMARCA: TStringField
+      FieldName = 'MARCA'
+      Origin = 'MARCA'
+      Size = 30
+    end
+  end
+  object qry_Capacidades: TFDQuery
+    Connection = FDConn
+    SQL.Strings = (
+      'SELECT * FROM TAB_CAPACIDADES')
+    Left = 120
+    Top = 96
+    object qry_CapacidadesID_CAPACIDADE: TIntegerField
+      FieldName = 'ID_CAPACIDADE'
+      Origin = 'ID_CAPACIDADE'
+    end
+    object qry_CapacidadesCAPACIDADE: TIntegerField
+      FieldName = 'CAPACIDADE'
+      Origin = 'CAPACIDADE'
+    end
+  end
 end

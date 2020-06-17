@@ -22,15 +22,18 @@ uses
   System.SysUtils,
   System.Types,
   System.UITypes,
-  System.Variants, FMX.Ani;
+  System.Variants, FMX.Ani, FMX.ListView.Types, FMX.ListView.Appearances,
+  FMX.ListView.Adapters.Base, FMX.ListView, Data.Bind.EngExt, Fmx.Bind.DBEngExt,
+  System.Rtti, System.Bindings.Outputs, Fmx.Bind.Editors, Data.Bind.Components,
+  Data.Bind.DBScope;
 
 type
   TfrmMain = class(TForm)
     tbcMain: TTabControl;
     tbiSplash: TTabItem;
-    TabItem1: TTabItem;
-    TabItem3: TTabItem;
-    TabItem2: TTabItem;
+    TabMain: TTabItem;
+    TabCapacidade: TTabItem;
+    Tabmarcas: TTabItem;
     lytSplash: TLayout;
     Label1: TLabel;
     tmrSplash: TTimer;
@@ -46,8 +49,6 @@ type
     lytToolCapa: TLayout;
     Rectangle1: TRectangle;
     lblCapacidade: TLabel;
-    btnCapaAdd: TButton;
-    Path2: TPath;
     img_aba3_sel: TImage;
     img_aba3: TImage;
     img_aba2: TImage;
@@ -69,9 +70,19 @@ type
     LytToolMarca: TLayout;
     rctToolMarca: TRectangle;
     lblMarcas: TLabel;
-    btnMarcaAdd: TButton;
     Path1: TPath;
     rctFundoMarca: TRectangle;
+    lstMarcas: TListView;
+    BindSourceDB1: TBindSourceDB;
+    BindingsList1: TBindingsList;
+    BindSourceDB2: TBindSourceDB;
+    LinkListControlToField1: TLinkListControlToField;
+    lstCapacidades: TListView;
+    BindSourceDB3: TBindSourceDB;
+    LinkListControlToField2: TLinkListControlToField;
+    sbtnMarcaAdd: TSpeedButton;
+    sbtnCapaAdd: TSpeedButton;
+    Path2: TPath;
     procedure FormCreate(Sender: TObject);
     procedure tmrSplashTimer(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -95,8 +106,7 @@ implementation
 
 {$R *.fmx}
 
-uses Datamodule,
-     udm2;
+uses Datamodule;
 
 
 procedure TfrmMain.Pulse(Aba : Integer);
@@ -126,16 +136,6 @@ end;
 procedure TfrmMain.FormShow(Sender: TObject);
 begin
       rctControls.Visible       := false;
-      DataM.qry_configbd.Active := false;
-      DataM.qry_configbd.Active := true;
-
-      vSoft                     := 'ISBeer';
-      vVersionDB                := DataM.qry_configbd.FieldByName('CONFDB_VERSAO').AsString;
-      //TODO : Comparar versão
-
-
-      //Mostra versão
-      lblSoftEVersao.Text :=vSoft+' by InnerSoft    Versão: '+vVersion;
 
 end;
 
@@ -165,6 +165,30 @@ begin
 
     Pulse(lyt.Tag);
 
+    // Ativar tabelas
+    if Lyt.Tag = 1 then
+    begin
+
+      DataM.qry_Marcas.Active   := False;
+      DataM.qry_Marcas.Active   := True;
+
+      DataM.qry_Capacidades.Active := False;
+      DataM.qry_Capacidades.Active := True;
+
+    end;
+
+    if Lyt.Tag=2 then
+    begin
+      DataM.qry_Marcas.Active := False;
+      DataM.qry_Marcas.Active := True;
+    end;
+    if Lyt.Tag=3 then
+    begin
+      DataM.qry_Capacidades.Active := False;
+      DataM.qry_Capacidades.Active := True;
+    end;
+
+
     //Mover TabControl
     TChangeTabAction(FrmMain.FindComponent('actTab'+Lyt.Tag.ToString)).Execute;
 end;
@@ -180,6 +204,24 @@ begin
     rctControls.Visible := true;
     FrmMain.Fill.Kind   := TBrushKind.Solid;
     FrmMain.Fill.Color  := $C8D9760D;
+
+    DataM.qry_configbd.Active := false;
+    DataM.qry_configbd.Active := true;
+
+    DataM.qry_Marcas.Active   := False;
+    DataM.qry_Marcas.Active   := True;
+
+    DataM.qry_Capacidades.Active := False;
+    DataM.qry_Capacidades.Active := True;
+
+    vSoft                     := 'ISBeer';
+    vVersionDB                := DataM.qry_configbd.FieldByName('CONFDB_VERSAO').AsString;
+    //TODO : Comparar versão
+
+
+    //Mostra versão
+    lblSoftEVersao.Text :=vSoft+' by InnerSoft    Versão: '+vVersion;
+
     SelecionaAba(Layout_aba1);
 end;
 

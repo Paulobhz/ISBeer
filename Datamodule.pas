@@ -39,6 +39,12 @@ type
     qry_configbdID_DB: TIntegerField;
     qry_configbdCONFDB_VERSAO: TStringField;
     qry_configbdCONFDB_DATA: TDateField;
+    qry_Marcas: TFDQuery;
+    qry_MarcasID_MARCAS: TIntegerField;
+    qry_MarcasMARCA: TStringField;
+    qry_Capacidades: TFDQuery;
+    qry_CapacidadesID_CAPACIDADE: TIntegerField;
+    qry_CapacidadesCAPACIDADE: TIntegerField;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }

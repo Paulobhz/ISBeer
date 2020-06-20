@@ -68,4 +68,9 @@ object DataM: TDataM
       Origin = 'CAPACIDADE'
     end
   end
+  object qry_geral: TFDQuery
+    Connection = FDConn
+    Left = 296
+    Top = 104
+  end
 end

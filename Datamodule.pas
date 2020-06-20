@@ -45,6 +45,7 @@ type
     qry_Capacidades: TFDQuery;
     qry_CapacidadesID_CAPACIDADE: TIntegerField;
     qry_CapacidadesCAPACIDADE: TIntegerField;
+    qry_geral: TFDQuery;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }

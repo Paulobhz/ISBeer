@@ -25,7 +25,7 @@ uses
   System.Variants, FMX.Ani, FMX.ListView.Types, FMX.ListView.Appearances,
   FMX.ListView.Adapters.Base, FMX.ListView, Data.Bind.EngExt, Fmx.Bind.DBEngExt,
   System.Rtti, System.Bindings.Outputs, Fmx.Bind.Editors, Data.Bind.Components,
-  Data.Bind.DBScope;
+  Data.Bind.DBScope, FMX.Edit;
 
 type
   TfrmMain = class(TForm)
@@ -34,7 +34,6 @@ type
     TabMain: TTabItem;
     TabCapacidade: TTabItem;
     Tabmarcas: TTabItem;
-    lytSplash: TLayout;
     Label1: TLabel;
     tmrSplash: TTimer;
     actList: TActionList;
@@ -83,15 +82,40 @@ type
     sbtnMarcaAdd: TSpeedButton;
     sbtnCapaAdd: TSpeedButton;
     Path2: TPath;
+    lytEdit: TLayout;
+    lbl_edt_AddEd: TLabel;
+    edt_AddEd: TEdit;
+    btn_AddEd_Ok: TSpeedButton;
+    rct_AddEd_Ok: TRectangle;
+    StyleBook1: TStyleBook;
+    rct_Splash_Fundo: TRectangle;
+    rct_AddEd_Fundo: TRectangle;
+    rct_AddEd_Edit: TRectangle;
+    Animat_Fade_Marcas: TFloatAnimation;
+    Animat_Show_Marcas: TFloatAnimation;
+    Animat_Edit: TFloatAnimation;
+    Animat_Fade_Capacidades: TFloatAnimation;
     procedure FormCreate(Sender: TObject);
     procedure tmrSplashTimer(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure Layout_aba1Click(Sender: TObject);
     procedure AnimationBallFinish(Sender: TObject);
+    procedure lstMarcasItemClick(const Sender: TObject;
+      const AItem: TListViewItem);
+    procedure btn_AddEd_OkClick(Sender: TObject);
+    procedure Animat_Fade_MarcasFinish(Sender: TObject);
+    procedure Animat_Show_MarcasFinish(Sender: TObject);
+    procedure sbtnMarcaAddClick(Sender: TObject);
+    procedure lstMarcasDeleteItem(Sender: TObject; AIndex: Integer);
+    procedure lstCapacidadesItemClick(const Sender: TObject;
+      const AItem: TListViewItem);
+    procedure sbtnCapaAddClick(Sender: TObject);
+    procedure Animat_EditFinish(Sender: TObject);
   private
     procedure SelecionaAba(lyt: Tlayout);
     procedure PaintIcon(aba: Integer);
     procedure Pulse(Aba: Integer);
+    procedure OpenAddEdItem(aAba, aOperacao : Char; aItemT:String='');
     { Private declarations }
   public
     { Public declarations }
@@ -100,13 +124,16 @@ type
 var
   frmMain: TfrmMain;
   vSoft, vVersionDB: String;
+  Operacao : Char;
 Const
   vVersion = '0.00.000';
 implementation
 
+
 {$R *.fmx}
 
-uses Datamodule;
+uses  Data.DB,
+      Datamodule;
 
 
 procedure TfrmMain.Pulse(Aba : Integer);
@@ -121,22 +148,89 @@ begin
 end;
 
 
+procedure TfrmMain.sbtnCapaAddClick(Sender: TObject);
+begin
+    OpenAddEdItem('C','I');
+end;
+
+procedure TfrmMain.sbtnMarcaAddClick(Sender: TObject);
+begin
+    OpenAddEdItem('M','I');
+end;
+
 procedure TfrmMain.AnimationBallFinish(Sender: TObject);
 begin
     PaintIcon(AnimationBall.Tag);
 end;
 
+procedure TfrmMain.Animat_EditFinish(Sender: TObject);
+begin
+    if Animat_edit.Inverse then begin
+      lstMarcas.Visible := True;
+      Animat_Show_Marcas.Start;
+    end;
+end;
+
+procedure TfrmMain.Animat_Fade_MarcasFinish(Sender: TObject);
+begin
+   lstMarcas.Visible    := False;
+   lytEdit.Visible := True;
+end;
+
+procedure TfrmMain.Animat_Show_MarcasFinish(Sender: TObject);
+begin
+   //lstMarcas.Opacity := 1;
+end;
+
+procedure TfrmMain.btn_AddEd_OkClick(Sender: TObject);
+begin
+
+    if edt_AddEd.Text='' then  begin
+      ShowMessage('O campo deve estar preenchido!');
+      exit;
+    end;
+
+    if lbl_Edt_AddEd.Text='Incluir Marca' then begin
+      DataM.qry_Marcas.Append;
+
+      DataM.qry_geral.Active := False;
+      DataM.qry_geral.SQL.Clear;
+      DataM.qry_geral.SQL.Add('SELECT IFNULL(MAX(ID_MARCAS), 0) AS ID_MARCAS FROM TAB_MARCAS');
+      DataM.qry_geral.Active := True;
+
+      DataM.qry_Marcas.FieldByName('ID_MARCAS').Value := DataM.qry_geral.FieldByName('ID_MARCAS').AsInteger + 1;
+
+      DataM.qry_Marcas.FieldByName('MARCA').Value := edt_AddEd.Text;
+      DataM.qry_Marcas.Post;
+    end;
+
+    if lbl_Edt_AddEd.Text='Editar Marca' then begin
+      if (DataM.qry_Marcas.State in dsEditModes) then begin
+        DataM.qry_Marcas.FieldByName('MARCA').Value := edt_AddEd.Text;
+        DataM.qry_Marcas.Post;
+      end;
+    end;
+
+    sbtnMarcaAdd.Enabled := True;
+    sbtnCapaAdd.Enabled  := True;
+    rctControls.Enabled  := True;
+
+    Animat_Edit.Inverse := True;
+    Animat_Edit.Start;
+
+end;
+
 procedure TfrmMain.FormCreate(Sender: TObject);
 begin
-      TbcMain.ActiveTab         := TbiSplash;
-      TbcMain.TabPosition       := TTabPosition.None;
+    TbcMain.ActiveTab   := TbiSplash;
+    TbcMain.TabPosition := TTabPosition.None;
+    lytEdit.Visible     := False;
 
 end;
 
 procedure TfrmMain.FormShow(Sender: TObject);
 begin
-      rctControls.Visible       := false;
-
+    rctControls.Visible       := false;
 end;
 
 procedure TfrmMain.PaintIcon(aba : Integer);
@@ -181,6 +275,7 @@ begin
     begin
       DataM.qry_Marcas.Active := False;
       DataM.qry_Marcas.Active := True;
+      lytEdit.Visible    := False;
     end;
     if Lyt.Tag=3 then
     begin
@@ -198,12 +293,88 @@ begin
     SelecionaAba(Tlayout(Sender));
 end;
 
+procedure TfrmMain.lstCapacidadesItemClick(const Sender: TObject;
+  const AItem: TListViewItem);
+begin
+
+    OpenAddEdItem('C','A',AItem.Text);
+
+end;
+
+procedure TfrmMain.lstMarcasDeleteItem(Sender: TObject; AIndex: Integer);
+begin
+    DataM.qry_Marcas.Edit;
+    DataM.qry_Marcas.Delete;
+end;
+
+
+procedure TfrmMain.lstMarcasItemClick(const Sender: TObject;
+  const AItem: TListViewItem);
+begin
+
+    OpenAddEdItem('M','A',AItem.Text);
+
+end;
+
+procedure TfrmMain.OpenAddEdItem(aAba, aOperacao : Char; aItemT:String='');
+
+begin
+    rctControls.Enabled  := False;
+    sbtnMarcaAdd.Enabled := False;
+    sbtnCapaAdd.Enabled  := False;
+    lytEdit.Visible      := True;
+    if aAba = 'M' then begin
+        Animat_Fade_Marcas.Start;
+        if aOperAcao='A' then begin //Alteração
+          DataM.qry_Marcas.Edit;
+          operacao := 'A';
+          Edt_AddEd.Text := AItemT;
+
+          lbl_Edt_AddEd.Text := 'Editar Marca';
+
+
+        end else begin //Inclusao
+
+          operacao       := 'I';
+          edt_AddEd.Text := '';
+          lbl_Edt_AddEd.Text := 'Incluir Marca';
+
+        end;
+
+    end;
+    if aAba = 'C' then begin
+
+        Animat_Fade_Capacidades.Start;
+        if aOperAcao='A' then begin //Alteração
+          DataM.qry_Capacidades.Edit;
+          operacao := 'A';
+          Edt_AddEd.Text := AItemT;
+
+          lbl_Edt_AddEd.Text := 'Editar Capacidade';
+
+
+        end else begin //Inclusao
+
+          operacao       := 'I';
+          edt_AddEd.Text := '';
+          lbl_Edt_AddEd.Text := 'Incluir Capacidade';
+
+        end;
+
+    end;
+
+
+    Animat_Edit.StopValue := ((FrmMain.Width/2)-140);
+    Animat_Edit.Inverse := False;
+    Animat_Edit.Start;
+
+end;
+
 procedure TfrmMain.tmrSplashTimer(Sender: TObject);
 begin
     tmrSplash.Enabled   := false;
-    rctControls.Visible := true;
-    FrmMain.Fill.Kind   := TBrushKind.Solid;
-    FrmMain.Fill.Color  := $C8D9760D;
+//    FrmMain.Fill.Kind   := TBrushKind.Solid;
+//    FrmMain.Fill.Color  := $C8D9760D;
 
     DataM.qry_configbd.Active := false;
     DataM.qry_configbd.Active := true;
@@ -223,6 +394,9 @@ begin
     lblSoftEVersao.Text :=vSoft+' by InnerSoft    Versão: '+vVersion;
 
     SelecionaAba(Layout_aba1);
+
+    rctControls.Visible := true;
+
 end;
 
 end.

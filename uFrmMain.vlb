@@ -58,9 +58,6 @@ Coordinates=532,10,61,51
 [actTab2]
 Coordinates=637,56,53,33
 
-[rctFundo]
-Coordinates=355,324,58,33
-
 [actTab1]
 Coordinates=637,166,53,33
 
@@ -121,15 +118,12 @@ Coordinates=114,188,81,51
 [actList]
 Coordinates=272,439,47,33
 
-[lytMToolbar]
-Coordinates=281,256,72,33
-
 [lstMarcas]
 Coordinates=10,10,89,141
 Visible=True
 
 []
-Coordinates=10,416,60,33
+Coordinates=355,324,58,33
 
 [Module Settings]
 ModelLayerNames=

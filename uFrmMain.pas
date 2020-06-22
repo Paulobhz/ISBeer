@@ -53,8 +53,6 @@ type
     actList: TActionList;
     actTab1: TChangeTabAction;
     lytMain: TLayout;
-    rctFundo: TRectangle;
-    lytMToolbar: TLayout;
     rctHeader: TRectangle;
     lblToolbar: TLabel;
     actTab3: TChangeTabAction;
@@ -109,6 +107,10 @@ type
     Animat_Show_Marcas: TFloatAnimation;
     Animat_Edit: TFloatAnimation;
     Animat_Fade_Capacidades: TFloatAnimation;
+    rctMelhorEscolha: TRectangle;
+    Label2: TLabel;
+    lblEscolha: TLabel;
+    vert: TVertScrollBox;
     procedure FormCreate(Sender: TObject);
     procedure tmrSplashTimer(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -130,6 +132,7 @@ type
     procedure PaintIcon(aba: Integer);
     procedure Pulse(Aba: Integer);
     procedure OpenAddEdItem(aAba, aOperacao : Char; aItemT:String='');
+    procedure AddItem(CodItem, marca, capacidade: String; ValorUnit, ValorLt: Double);
     { Private declarations }
   public
     { Public declarations }
@@ -170,6 +173,159 @@ end;
 procedure TfrmMain.sbtnMarcaAddClick(Sender: TObject);
 begin
     OpenAddEdItem('M','I');
+end;
+
+procedure TfrmMain.AddItem(CodItem, marca, capacidade: String; ValorUnit,
+  ValorLt: Double);
+Var
+  rect,
+  rect_icone,
+  rect_barra : TRectangle;
+  lbl  : TLabel;
+
+begin
+  rect := TRectangle.Create(Vert);
+  with rect do
+  begin
+      Align         := TAlignLayout.Top;
+      Height        := 60;
+      Fill.Color    := $FFFFFFFF;
+      Stroke.Kind   := TBrushKind.Solid;
+      Stroke.Color  := $FFd4d5d7;
+      Margins.Top   := 10;
+      Margins.Left  := 10;
+      Margins.Right := 10;
+      XRadius := 8;
+      YRadius :=8;
+      TagString := CodItem;
+  end;
+
+  rect_barra := TRectangle.Create(Rect);
+  with rect_barra do
+  begin
+      Align         := TAlignLayout.Bottom;
+      Height        := 30;
+      Fill.Color    := $FFF4F4F4;
+      Stroke.Kind   := TBrushKind.Solid;
+      Stroke.Color  := $FFd4d5d7;
+      Sides         := [TSide.Left,TSide.Bottom,TSide.Right];
+      Corners       := [TCorner.BottomLeft,TCorner.BottomRight];
+      XRadius       := 8;
+      YRadius       := 8;
+      HitTest       := False;
+      rect.AddObject(rect_barra);
+  end;
+
+  //Marca
+  lbl := TLabel.Create(Rect);
+  with lbl do
+  begin
+      StyledSettings := StyledSettings - [TStyledSetting.Size, TStyledSetting.FontColor, TStyledSetting.Style];
+      TextSettings.FontColor  := $FF666666;
+      Text                    := 'Marca';
+      Font.Size               := 10;
+      Width                   := 100;
+      Position.X              := 10;
+      Position.Y              := 10;
+      rect.AddObject(lbl);
+  end;
+  lbl := TLabel.Create(Rect);
+  with lbl do
+  begin
+      StyledSettings := StyledSettings - [TStyledSetting.Size, TStyledSetting.FontColor, TStyledSetting.Style];
+      TextSettings.FontColor  := $FF333333;
+      Text                    := marca;
+      Font.Size               := 12;
+      Width                   := 100;
+      Position.X              := 10;
+      Position.Y              := 8;
+      Font.Style              := [TFontStyle.fsBold];
+      rect_barra.AddObject(lbl);
+  end;
+
+  //Capacidade
+  lbl := TLabel.Create(Rect);
+  with lbl do
+  begin
+      StyledSettings := StyledSettings - [TStyledSetting.Size, TStyledSetting.FontColor, TStyledSetting.Style];
+      TextSettings.FontColor  := $FF666666;
+      Text                    := 'Capacidade';
+      Font.Size               := 10;
+      Width                   := 100;
+      Position.X              := 100;
+      Position.Y              := 10;
+      rect.AddObject(lbl);
+  end;
+  lbl := TLabel.Create(Rect);
+  with lbl do
+  begin
+      StyledSettings := StyledSettings - [TStyledSetting.Size, TStyledSetting.FontColor, TStyledSetting.Style];
+      TextSettings.FontColor  := $FF333333;
+      Text                    := capacidade + ' ml';
+      Font.Size               := 12;
+      Width                   := 100;
+      Position.X              := 100;
+      Position.Y              := 8;
+      Font.Style              := [TFontStyle.fsBold];
+      rect_barra.AddObject(lbl);
+  end;
+
+  //Valor Unitário
+  lbl := TLabel.Create(Rect);
+  with lbl do
+  begin
+      StyledSettings := StyledSettings - [TStyledSetting.Size, TStyledSetting.FontColor, TStyledSetting.Style];
+      TextSettings.FontColor  := $FF666666;
+      Text                    := 'Valor Unitário';
+      Font.Size               := 10;
+      Width                   := 100;
+      Position.X              := 180;
+      Position.Y              := 10;
+      rect.AddObject(lbl);
+  end;
+  lbl := TLabel.Create(Rect);
+  with lbl do
+  begin
+      StyledSettings := StyledSettings - [TStyledSetting.Size, TStyledSetting.FontColor, TStyledSetting.Style];
+      TextSettings.FontColor  := $FF333333;
+      Text                    := 'R$ '+ FormatFloat('#,##0.00',ValorUnit);
+      Font.Size               := 12;
+      Width                   := 100;
+      Position.X              := 180;
+      Position.Y              := 8;
+      Font.Style              := [TFontStyle.fsBold];
+      rect_barra.AddObject(lbl);
+  end;
+
+
+  //Valor Litro
+  lbl := TLabel.Create(Rect);
+  with lbl do
+  begin
+      StyledSettings := StyledSettings - [TStyledSetting.Size, TStyledSetting.FontColor, TStyledSetting.Style];
+      TextSettings.FontColor  := $FF666666;
+      Text                    := 'Valor Litro';
+      Font.Size               := 10;
+      Width                   := 100;
+      Position.X              := 280;
+      Position.Y              := 10;
+      rect.AddObject(lbl);
+  end;
+  lbl := TLabel.Create(Rect);
+  with lbl do
+  begin
+      StyledSettings := StyledSettings - [TStyledSetting.Size, TStyledSetting.FontColor, TStyledSetting.Style];
+      TextSettings.FontColor  := $FF333333;
+      Text                    := 'R$ '+ FormatFloat('#,##0.00',ValorLt);
+      Font.Size               := 12;
+      Width                   := 100;
+      Position.X              := 280;
+      Position.Y              := 8;
+      Font.Style              := [TFontStyle.fsBold];
+      rect_barra.AddObject(lbl);
+  end;
+
+  Vert.AddObject(Rect);
 end;
 
 procedure TfrmMain.AnimationBallFinish(Sender: TObject);
@@ -413,7 +569,10 @@ begin
     SelecionaAba(Layout_aba1);
 
     rctControls.Visible := true;
-
+    AddItem('001','Skol','476',2.98,6);
+    AddItem('002','Brahma','267',1.98,8.9);
+    AddItem('003','Stella','375',3.98,10.01);
+    AddItem('004','Walls','350',3.57,7.58);
 end;
 
 end.

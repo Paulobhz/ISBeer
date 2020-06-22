@@ -3,29 +3,43 @@ unit uFrmMain;
 interface
 
 uses
+  Data.Bind.Components,
+  Data.Bind.DBScope,
+  Data.Bind.EngExt,
+
   FMX.ActnList,
+  FMX.Ani,
   FMX.Controls,
   FMX.Controls.Presentation,
   FMX.Dialogs,
+  FMX.Edit,
   FMX.Forms,
   FMX.Graphics,
   FMX.Layouts,
   FMX.ListBox,
+  FMX.ListView,
+  FMX.ListView.Adapters.Base,
+  FMX.ListView.Appearances,
+  FMX.ListView.Types,
   FMX.MultiView,
   FMX.Objects,
+  FMX.Platform,
   FMX.StdCtrls,
   FMX.TabControl,
   FMX.Types,
+  FMX.VirtualKeyboard,
+
+  Fmx.Bind.DBEngExt,
+  Fmx.Bind.Editors,
 
   System.Actions,
+  System.Bindings.Outputs,
   System.Classes,
+  System.Rtti,
   System.SysUtils,
   System.Types,
   System.UITypes,
-  System.Variants, FMX.Ani, FMX.ListView.Types, FMX.ListView.Appearances,
-  FMX.ListView.Adapters.Base, FMX.ListView, Data.Bind.EngExt, Fmx.Bind.DBEngExt,
-  System.Rtti, System.Bindings.Outputs, Fmx.Bind.Editors, Data.Bind.Components,
-  Data.Bind.DBScope, FMX.Edit;
+  System.Variants;
 
 type
   TfrmMain = class(TForm)
@@ -183,6 +197,8 @@ begin
 end;
 
 procedure TfrmMain.btn_AddEd_OkClick(Sender: TObject);
+var
+  KeyboardService: IFMXVirtualKeyboardService;
 begin
 
     if edt_AddEd.Text='' then  begin
@@ -210,7 +226,8 @@ begin
         DataM.qry_Marcas.Post;
       end;
     end;
-
+    if TPlatformServices.Current.SupportsPlatformService(IFMXVirtualKeyboardService, IInterface(KeyboardService)) then
+      KeyboardService.HideVirtualKeyboard;
     sbtnMarcaAdd.Enabled := True;
     sbtnCapaAdd.Enabled  := True;
     rctControls.Enabled  := True;

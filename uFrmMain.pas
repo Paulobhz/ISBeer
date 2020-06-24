@@ -42,6 +42,13 @@ uses
   System.Variants;
 
 type
+  TItem = record
+      CodItem    : String;
+      Marca      : String;
+      Capacidade : Integer;
+      ValUnit,
+      ValLitro   : double;
+  end;
   TfrmMain = class(TForm)
     tbcMain: TTabControl;
     tbiSplash: TTabItem;
@@ -94,23 +101,45 @@ type
     sbtnMarcaAdd: TSpeedButton;
     sbtnCapaAdd: TSpeedButton;
     Path2: TPath;
-    lytEdit: TLayout;
-    lbl_edt_AddEd: TLabel;
-    edt_AddEd: TEdit;
-    btn_AddEd_Ok: TSpeedButton;
-    rct_AddEd_Ok: TRectangle;
     StyleBook1: TStyleBook;
     rct_Splash_Fundo: TRectangle;
-    rct_AddEd_Fundo: TRectangle;
-    rct_AddEd_Edit: TRectangle;
     Animat_Fade_Marcas: TFloatAnimation;
     Animat_Show_Marcas: TFloatAnimation;
-    Animat_Edit: TFloatAnimation;
     Animat_Fade_Capacidades: TFloatAnimation;
     rctMelhorEscolha: TRectangle;
     Label2: TLabel;
     lblEscolha: TLabel;
     vert: TVertScrollBox;
+    btnAddItem: TSpeedButton;
+    Path3: TPath;
+    btnLimpaLista: TSpeedButton;
+    Path4: TPath;
+    Image1: TImage;
+    lytEdit: TLayout;
+    rct_AddEd_Fundo: TRectangle;
+    lbl_edt_AddEd: TLabel;
+    rct_AddEd_Ok: TRectangle;
+    btn_AddEd_Ok: TSpeedButton;
+    rct_AddEd_Edit: TRectangle;
+    edt_AddEd: TEdit;
+    Animat_Edit: TFloatAnimation;
+    lytItem: TLayout;
+    rctFundo: TRectangle;
+    lblItem: TLabel;
+    Rectangle3: TRectangle;
+    btnItemOk: TSpeedButton;
+    Rectangle4: TRectangle;
+    edtValUnit: TEdit;
+    animatItem: TFloatAnimation;
+    Rectangle5: TRectangle;
+    cbxMarca: TComboBox;
+    Label4: TLabel;
+    Label5: TLabel;
+    Rectangle6: TRectangle;
+    cbxCapacidade: TComboBox;
+    Label6: TLabel;
+    LinkListControlToField3: TLinkListControlToField;
+    LinkListControlToField4: TLinkListControlToField;
     procedure FormCreate(Sender: TObject);
     procedure tmrSplashTimer(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -127,12 +156,18 @@ type
       const AItem: TListViewItem);
     procedure sbtnCapaAddClick(Sender: TObject);
     procedure Animat_EditFinish(Sender: TObject);
+    procedure btnAddItemClick(Sender: TObject);
+    procedure btnLimpaListaClick(Sender: TObject);
+    procedure edtValUnitKeyDown(Sender: TObject; var Key: Word;
+      var KeyChar: Char; Shift: TShiftState);
   private
     procedure SelecionaAba(lyt: Tlayout);
     procedure PaintIcon(aba: Integer);
     procedure Pulse(Aba: Integer);
     procedure OpenAddEdItem(aAba, aOperacao : Char; aItemT:String='');
     procedure AddItem(CodItem, marca, capacidade: String; ValorUnit, ValorLt: Double);
+    procedure SelecionaItem(Sender: TObject);
+    procedure SelecionaItemTap(Sender: TObject; const Point: TPointF);
     { Private declarations }
   public
     { Public declarations }
@@ -142,8 +177,11 @@ var
   frmMain: TfrmMain;
   vSoft, vVersionDB: String;
   Operacao : Char;
+  Nitem : Integer;
+  aItens : Array of TItem;
 Const
   vVersion = '0.00.000';
+  StVazio  = 'Irmos comprar mais cerveja !!!';
 implementation
 
 
@@ -151,6 +189,61 @@ implementation
 
 uses  Data.DB,
       Datamodule;
+
+Procedure FormatarMoeda( Componente : TObject; var Key: Char );
+var
+   valor_str  : String;
+   valor  : double;
+begin
+
+        if Componente is TEdit then
+        begin
+                // Se tecla pressionada é um numero, backspace ou delete...
+                if  CharInSet(Key,['0'..'9', #8, #9] ) then
+                begin
+                         // Salva valor do edit...
+                         valor_str := TEdit( Componente ).Text;
+
+                         // Valida vazio...
+                         if valor_str = EmptyStr then
+                                valor_str := '0,00';
+
+                         // Se valor numerico, insere na string...
+                         if CharInSet(Key,['0'..'9']) then
+                                valor_str := Concat( valor_str, Key ) ;
+
+                         // Retira pontos e virgulas...
+                         valor_str := Trim( StringReplace( valor_str, '.', '', [rfReplaceAll, rfIgnoreCase] ) ) ;
+                         valor_str := Trim( StringReplace( valor_str, ',', '', [rfReplaceAll, rfIgnoreCase] ) ) ;
+
+                         // Inserindo 2 casas decimais...
+                         valor := StrToFloat( valor_str ) ;
+                         valor := ( valor / 100 ) ;
+
+                         // Retornando valor tratado ao edit...
+                         TEdit( Componente ).Text := FormatFloat( '###,##0.00', valor ) ;
+
+                         // Reposiciona cursor...
+                         TEdit( Componente ).SelStart := Length( TEdit( Componente ).Text );
+                end;
+
+                // Se nao é key importante, reseta...
+                if Not( CharInSet(Key,[#8, #9]) ) then
+                        key := #0;
+        end;
+
+end;
+
+procedure TFrmMain.SelecionaItem(Sender: TObject);
+begin
+    showmessage('Item selecionado: ' + TRectangle(Sender).TagString);
+end;
+
+procedure TFrmMain.SelecionaItemTap(Sender: TObject; const Point: TPointF);
+begin
+    showmessage('Item selecionado: ' + TRectangle(Sender).TagString);
+end;
+
 
 
 procedure TfrmMain.Pulse(Aba : Integer);
@@ -192,12 +285,21 @@ begin
       Fill.Color    := $FFFFFFFF;
       Stroke.Kind   := TBrushKind.Solid;
       Stroke.Color  := $FFd4d5d7;
-      Margins.Top   := 10;
+{      if codItem='001' then
+        Margins.Top   := 150
+      else
+ }       Margins.Top   := 10;
       Margins.Left  := 10;
       Margins.Right := 10;
       XRadius := 8;
       YRadius :=8;
       TagString := CodItem;
+
+      {$IFDEF MSWINDOWS}
+      onClick := SelecionaItem;
+      {$ELSE}
+      onTap := SelecionaItemTap;
+      {$ENDIF}
   end;
 
   rect_barra := TRectangle.Create(Rect);
@@ -352,6 +454,30 @@ begin
    //lstMarcas.Opacity := 1;
 end;
 
+procedure TfrmMain.btnAddItemClick(Sender: TObject);
+begin
+  btnAddItem.Enabled := False;
+  btnLimpaLista.Enabled := False;
+  rctControls.Enabled := False;
+  lblItem.Text := 'Incluir Item';
+  AnimatItem.StopValue := ((FrmMain.Width/2)-140);
+  AnimatItem.Inverse := False;
+
+  AnimatItem.Start;
+end;
+
+procedure TfrmMain.btnLimpaListaClick(Sender: TObject);
+Var
+  I : Integer;
+begin
+    for I := Vert.ComponentCount -1 downto 0 do
+        if (Vert.Components[I] is TRectangle) then
+            Vert.Components[I].DisposeOf;
+    lblEscolha.Text     := StVazio;
+    SetLength(aItens, 0);
+    aItens := nil;
+end;
+
 procedure TfrmMain.btn_AddEd_OkClick(Sender: TObject);
 var
   KeyboardService: IFMXVirtualKeyboardService;
@@ -393,17 +519,26 @@ begin
 
 end;
 
+procedure TfrmMain.edtValUnitKeyDown(Sender: TObject; var Key: Word;
+  var KeyChar: Char; Shift: TShiftState);
+begin
+    FormatarMoeda(edtValUnit,KeyChar);
+end;
+
 procedure TfrmMain.FormCreate(Sender: TObject);
 begin
     TbcMain.ActiveTab   := TbiSplash;
     TbcMain.TabPosition := TTabPosition.None;
     lytEdit.Visible     := False;
-
+    NItem := 0;
+    SetLength(aItens, 0);
+    aItens := nil;
 end;
 
 procedure TfrmMain.FormShow(Sender: TObject);
 begin
-    rctControls.Visible       := false;
+    rctControls.Visible := false;
+    lblEscolha.Text     := StVazio;
 end;
 
 procedure TfrmMain.PaintIcon(aba : Integer);
@@ -569,10 +704,11 @@ begin
     SelecionaAba(Layout_aba1);
 
     rctControls.Visible := true;
-    AddItem('001','Skol','476',2.98,6);
+//    ResizeObjects;
+{    AddItem('001','Skol','476',2.98,6);
     AddItem('002','Brahma','267',1.98,8.9);
     AddItem('003','Stella','375',3.98,10.01);
-    AddItem('004','Walls','350',3.57,7.58);
+    AddItem('004','Walls','350',3.57,7.58);}
 end;
 
 end.

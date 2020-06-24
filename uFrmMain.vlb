@@ -1,129 +1,130 @@
 ﻿[img_Pulso]
-Coordinates=613,10,66,51
+Coordinates=613,10,74,58
 
 [AnimationBall]
-Coordinates=494,1,83,33
+Coordinates=494,1,93,36
 
 [img_Ball]
-Coordinates=352,10,57,51
+Coordinates=352,10,64,58
 
 [img_aba2]
-Coordinates=90,256,61,51
+Coordinates=90,256,71,58
 
 [TabMain]
-Coordinates=646,370,56,33
+Coordinates=646,370,64,36
 
 [tmrSplash]
-Coordinates=494,111,64,33
+Coordinates=494,111,72,36
 
 [TabCapacidade]
-Coordinates=531,370,90,33
+Coordinates=531,370,105,36
 
 [rctToolMarca]
-Coordinates=431,370,79,33
+Coordinates=431,370,90,36
 
 [LytToolMarca]
-Coordinates=329,370,81,33
+Coordinates=329,370,92,36
 
 [Tabmarcas]
-Coordinates=241,370,68,33
+Coordinates=241,370,78,36
 
 [lytToolCapa]
-Coordinates=148,370,73,33
+Coordinates=148,370,83,36
 
 [lytMarca]
-Coordinates=75,370,56,33
+Coordinates=75,370,63,36
 
 [lytMain]
-Coordinates=10,370,49,33
+Coordinates=10,370,55,36
 
 [tbcMain]
-Coordinates=640,324,53,33
+Coordinates=640,324,60,36
 
 [img_aba1]
-Coordinates=271,10,61,51
+Coordinates=271,10,71,58
 
 [rctFundoMarca]
-Coordinates=529,324,88,33
+Coordinates=529,324,101,36
 
 [Layout_aba2]
-Coordinates=430,324,77,33
+Coordinates=430,324,89,36
 
 [AnimationPulso]
-Coordinates=637,1,92,33
+Coordinates=637,1,104,36
 
 [img_aba3]
-Coordinates=532,10,61,51
+Coordinates=532,10,71,58
 
 [actTab2]
-Coordinates=637,56,53,33
+Coordinates=637,56,61,36
 
 [actTab1]
-Coordinates=637,166,53,33
+Coordinates=637,166,61,36
 
 [img_aba3_sel]
-Coordinates=10,188,81,51
+Coordinates=10,188,94,58
 
 [Layout_aba1]
-Coordinates=256,324,77,33
+Coordinates=256,324,89,36
 
 [lblCapacidade]
-Coordinates=426,10,84,51
+Coordinates=426,10,96,58
 
 [lblToolbar]
-Coordinates=190,10,64,51
+Coordinates=190,10,71,58
 
 [actTab3]
-Coordinates=637,276,53,33
+Coordinates=637,276,61,36
 
 [lblMarcas]
-Coordinates=10,256,61,51
+Coordinates=10,256,70,58
 
 [rctHeader]
-Coordinates=175,324,62,33
+Coordinates=175,324,71,36
 
 [tbiSplash]
-Coordinates=97,324,60,33
+Coordinates=97,324,68,36
 
 [img_aba2_sel]
-Coordinates=386,188,81,51
+Coordinates=386,188,94,58
 
 [Path1]
-Coordinates=314,188,52,51
+Coordinates=314,188,62,58
 
 [Label1]
-Coordinates=127,10,46,51
+Coordinates=127,10,53,58
 
 [rctControls]
-Coordinates=10,324,69,33
+Coordinates=10,324,77,36
 
 [Rectangle1]
-Coordinates=578,256,69,33
+Coordinates=578,256,80,36
 
 [Layout_aba3]
-Coordinates=479,256,77,33
+Coordinates=479,256,89,36
 
 [AnimationPulsoW]
-Coordinates=779,1,102,33
+Coordinates=779,1,116,36
 
 [lblSoftEVersao]
-Coordinates=171,256,87,51
+Coordinates=171,256,100,58
 
 [lytCapacidade]
-Coordinates=373,256,84,33
+Coordinates=373,256,96,36
 
 [img_aba1_sel]
-Coordinates=114,188,81,51
+Coordinates=114,188,94,58
 
 [actList]
-Coordinates=272,439,47,33
+Coordinates=272,439,52,36
 
 [lstMarcas]
-Coordinates=10,10,89,141
+Coordinates=10,10,107,168
 Visible=True
 
 []
-Coordinates=355,324,58,33
+Coordinates=571,521,75,33
+Visible=True
 
 [Module Settings]
 ModelLayerNames=
@@ -131,76 +132,154 @@ ActiveLayerNames=
 EditingLayerName=
 
 [DataM.qry_Capacidades]
-Coordinates=192,80,133,33
+Coordinates=192,80,156,36
 Visible=False
 
 [DataM.qry_Marcas]
-Coordinates=363,80,105,33
+Coordinates=363,80,123,36
 Visible=False
 
 [DataM.qry_configbd]
-Coordinates=660,510,113,33
+Coordinates=660,510,129,36
 Visible=False
 
 [BindSourceDB1]
-Coordinates=580,80,119,105
+Coordinates=580,80,143,152
 
 [BindingsList1]
-Coordinates=548,80,82,33
+Coordinates=548,80,91,36
 
 [BindSourceDB2]
-Coordinates=363,80,93,105
+Coordinates=490,480,111,152
 
 [lstCapacidades]
-Coordinates=750,80,89,141
+Coordinates=750,80,107,168
 Visible=True
 
 [BindSourceDB3]
-Coordinates=730,490,98,123
+Coordinates=730,490,117,146
 
 [Path2]
-Coordinates=354,293,52,51
+Coordinates=354,293,62,58
 
 [sbtnMarcaAdd]
-Coordinates=15,197,85,51
+Coordinates=15,197,97,58
 
 [sbtnCapaAdd]
-Coordinates=136,87,81,51
+Coordinates=136,87,92,58
 
 [StyleBook1]
-Coordinates=779,421,70,33
+Coordinates=779,421,79,36
 
 [rct_Splash_Fundo]
-Coordinates=110,500,104,33
+Coordinates=110,500,119,36
 
 [Animat_Fade_Marcas]
-Coordinates=650,441,120,33
+Coordinates=650,441,140,36
 
 [Animat_Show_Marcas]
-Coordinates=431,441,123,33
+Coordinates=431,441,142,36
 
 [DataM.qry_geral]
-Coordinates=548,204,94,51
+Coordinates=548,204,109,58
+
+[btnItemOk]
+Coordinates=120,155,74,58
+
+[rctFundo]
+Coordinates=482,494,65,36
+
+[Rectangle3]
+Coordinates=393,494,80,36
+
+[vert]
+Coordinates=344,494,40,36
 
 [lytEdit]
-Coordinates=571,521,75,33
+Coordinates=285,494,50,36
 
-[rct_AddEd_Fundo]
-Coordinates=332,441,94,33
+[Rectangle5]
+Coordinates=21,494,80,36
 
-[rct_AddEd_Ok]
-Coordinates=472,521,82,33
+[Label6]
+Coordinates=120,78,53,58
 
-[btn_AddEd_Ok]
-Coordinates=779,344,85,51
-
-[edt_AddEd]
-Coordinates=761,267,65,51
+[cbxMarca]
+Coordinates=670,330,101,146
 Visible=True
 
-[rct_AddEd_Edit]
-Coordinates=255,132,69,33
+[cbxCapacidade]
+Coordinates=410,90,103,146
+
+[Animat_Fade_Capacidades]
+Coordinates=1079,1,173,36
+
+[edt_AddEd]
+Coordinates=69,398,78,58
+
+[Path4]
+Coordinates=454,311,62,58
 
 [lbl_edt_AddEd]
-Coordinates=560,425,83,51
+Coordinates=779,344,98,58
+
+[Path3]
+Coordinates=120,1,62,58
+
+[rct_AddEd_Edit]
+Coordinates=933,56,104,36
+
+[Label4]
+Coordinates=559,223,53,58
+
+[edtValUnit]
+Coordinates=761,267,74,58
+
+[Label5]
+Coordinates=560,311,53,58
+
+[btnLimpaLista]
+Coordinates=330,398,95,58
+
+[Label2]
+Coordinates=232,252,53,58
+
+[rct_AddEd_Fundo]
+Coordinates=933,111,118,36
+
+[Image1]
+Coordinates=671,515,57,58
+
+[btn_AddEd_Ok]
+Coordinates=551,515,101,58
+
+[btnAddItem]
+Coordinates=241,398,80,58
+
+[lblEscolha]
+Coordinates=11,293,73,58
+
+[lytItem]
+Coordinates=641,574,53,36
+
+[Rectangle4]
+Coordinates=933,166,80,36
+
+[Rectangle6]
+Coordinates=933,221,80,36
+
+[Animat_Edit]
+Coordinates=933,276,84,36
+
+[rct_AddEd_Ok]
+Coordinates=933,331,98,36
+
+[rctMelhorEscolha]
+Coordinates=933,386,114,36
+
+[animatItem]
+Coordinates=933,1,108,36
+
+[lblItem]
+Coordinates=173,293,53,58
 

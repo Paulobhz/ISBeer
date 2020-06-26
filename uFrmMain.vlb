@@ -189,17 +189,11 @@ Coordinates=120,155,74,58
 [rctFundo]
 Coordinates=482,494,65,36
 
-[Rectangle3]
-Coordinates=393,494,80,36
-
 [vert]
 Coordinates=344,494,40,36
 
 [lytEdit]
 Coordinates=285,494,50,36
-
-[Rectangle5]
-Coordinates=21,494,80,36
 
 [Label6]
 Coordinates=120,78,53,58
@@ -262,12 +256,6 @@ Coordinates=11,293,73,58
 [lytItem]
 Coordinates=641,574,53,36
 
-[Rectangle4]
-Coordinates=933,166,80,36
-
-[Rectangle6]
-Coordinates=933,221,80,36
-
 [Animat_Edit]
 Coordinates=933,276,84,36
 
@@ -277,9 +265,21 @@ Coordinates=933,331,98,36
 [rctMelhorEscolha]
 Coordinates=933,386,114,36
 
-[animatItem]
-Coordinates=933,1,108,36
-
 [lblItem]
 Coordinates=173,293,53,58
+
+[rctOK]
+Coordinates=393,494,80,36
+
+[rctValUnit]
+Coordinates=933,166,80,36
+
+[rctMarca]
+Coordinates=21,494,80,36
+
+[rctCapacidade]
+Coordinates=933,221,80,36
+
+[Animat_Item]
+Coordinates=933,1,108,36
 

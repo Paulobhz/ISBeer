@@ -40,7 +40,7 @@ object DataM: TDataM
   object qry_Marcas: TFDQuery
     Connection = FDConn
     SQL.Strings = (
-      'SELECT * FROM TAB_MARCAS')
+      'SELECT * FROM TAB_MARCAS ORDER BY TAB_MARCAS.MARCA')
     Left = 216
     Top = 96
     object qry_MarcasID_MARCAS: TIntegerField
@@ -56,7 +56,9 @@ object DataM: TDataM
   object qry_Capacidades: TFDQuery
     Connection = FDConn
     SQL.Strings = (
-      'SELECT * FROM TAB_CAPACIDADES')
+      
+        'SELECT * FROM TAB_CAPACIDADES ORDER BY TAB_CAPACIDADES.CAPACIDAD' +
+        'E')
     Left = 120
     Top = 96
     object qry_CapacidadesID_CAPACIDADE: TIntegerField

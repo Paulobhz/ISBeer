@@ -126,20 +126,21 @@ type
     lytItem: TLayout;
     rctFundo: TRectangle;
     lblItem: TLabel;
-    Rectangle3: TRectangle;
+    rctOK: TRectangle;
     btnItemOk: TSpeedButton;
-    Rectangle4: TRectangle;
+    rctValUnit: TRectangle;
     edtValUnit: TEdit;
-    animatItem: TFloatAnimation;
-    Rectangle5: TRectangle;
+    Animat_Item: TFloatAnimation;
+    rctMarca: TRectangle;
     cbxMarca: TComboBox;
     Label4: TLabel;
     Label5: TLabel;
-    Rectangle6: TRectangle;
+    rctCapacidade: TRectangle;
     cbxCapacidade: TComboBox;
     Label6: TLabel;
     LinkListControlToField3: TLinkListControlToField;
     LinkListControlToField4: TLinkListControlToField;
+    Animat_Show_Capacidades: TFloatAnimation;
     procedure FormCreate(Sender: TObject);
     procedure tmrSplashTimer(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -160,6 +161,8 @@ type
     procedure btnLimpaListaClick(Sender: TObject);
     procedure edtValUnitKeyDown(Sender: TObject; var Key: Word;
       var KeyChar: Char; Shift: TShiftState);
+    procedure btnItemOkClick(Sender: TObject);
+    procedure Animat_ItemFinish(Sender: TObject);
   private
     procedure SelecionaAba(lyt: Tlayout);
     procedure PaintIcon(aba: Integer);
@@ -187,7 +190,9 @@ implementation
 
 {$R *.fmx}
 
-uses  Data.DB,
+uses
+
+      Data.DB,
       Datamodule;
 
 Procedure FormatarMoeda( Componente : TObject; var Key: Char );
@@ -272,7 +277,7 @@ procedure TfrmMain.AddItem(CodItem, marca, capacidade: String; ValorUnit,
   ValorLt: Double);
 Var
   rect,
-  rect_icone,
+  //rect_icone,
   rect_barra : TRectangle;
   lbl  : TLabel;
 
@@ -438,15 +443,30 @@ end;
 procedure TfrmMain.Animat_EditFinish(Sender: TObject);
 begin
     if Animat_edit.Inverse then begin
-      lstMarcas.Visible := True;
+      DataM.qry_Marcas.Active := False;
+      DataM.qry_Marcas.Active := True;
+      DataM.qry_Capacidades.Active := False;
+      DataM.qry_Capacidades.Active := True;
+      lstCapacidades.Opacity := 0;
+      lstMarcas.Opacity      := 0;
+      lstMarcas.Visible      := True;
+      lstCapacidades.Visible := True;
       Animat_Show_Marcas.Start;
-    end;
+      Animat_Show_Capacidades.Start;
+    end else
+      edt_AddEd.SetFocus;
 end;
 
 procedure TfrmMain.Animat_Fade_MarcasFinish(Sender: TObject);
 begin
    lstMarcas.Visible    := False;
    lytEdit.Visible := True;
+end;
+
+procedure TfrmMain.Animat_ItemFinish(Sender: TObject);
+begin
+    if NOT Animat_Item.Inverse then edtValUnit.SetFocus;
+
 end;
 
 procedure TfrmMain.Animat_Show_MarcasFinish(Sender: TObject);
@@ -456,14 +476,88 @@ end;
 
 procedure TfrmMain.btnAddItemClick(Sender: TObject);
 begin
-  btnAddItem.Enabled := False;
-  btnLimpaLista.Enabled := False;
-  rctControls.Enabled := False;
-  lblItem.Text := 'Incluir Item';
-  AnimatItem.StopValue := ((FrmMain.Width/2)-140);
-  AnimatItem.Inverse := False;
+    btnAddItem.Enabled := False;
+    btnLimpaLista.Enabled := False;
+    rctControls.Enabled := False;
+    lblItem.Text := 'Incluir Item';
+    edtValUnit.Text := '';
+    cbxMarca.ItemIndex :=-1;
+    cbxCapacidade.ItemIndex := -1;
 
-  AnimatItem.Start;
+    Animat_Item.StopValue := ((FrmMain.Width/2)-140);
+    Animat_Item.Inverse := False;
+
+    Animat_Item.Start;
+end;
+
+procedure TfrmMain.btnItemOkClick(Sender: TObject);
+var
+  ValorLitro,
+  ValorUnit   : double;
+  CapacidadeD : integer;
+  I : Integer;
+  MItem : TItem;
+begin
+
+    if (edtValUnit.Text='')or(cbxMarca.ItemIndex=-1)or(cbxCapacidade.ItemIndex=-1) then  begin
+      ShowMessage('TODOS os campos devem estar preenchidos!');
+      exit;
+    end;
+
+    ValorUnit   := StrToFloat(edtValUnit.Text);
+    CapacidadeD := StrToInt(cbxCapacidade.Items[cbxCapacidade.ItemIndex]);
+    ValorLitro  := (ValorUnit*1000)/CapacidadeD;
+
+    if lblItem.Text='Incluir Item' then begin
+        nItem := nItem+1;
+        SetLength(aItens,Length(aItens)+1);
+        with aItens[Length(aItens)-1] do begin
+            CodItem    := nItem.ToString;
+            Marca      := cbxMarca.Items[cbxMarca.ItemIndex];
+            Capacidade := CapacidadeD;
+            ValUnit    := ValorUnit;
+            ValLitro   := ValorLitro;
+        end;
+        //incluir no vetor
+        AddItem(nItem.ToString,                              //codItem
+                cbxMarca.Items[cbxMarca.ItemIndex],
+                cbxCapacidade.Items[cbxCapacidade.ItemIndex],
+                ValorUnit,
+                ValorLitro);
+
+    end;
+
+    if lbl_Edt_AddEd.Text='Editar Item' then begin
+
+    end;
+    btnAddItem.Enabled := True;
+    btnLimpaLista.Enabled  := True;
+    rctControls.Enabled  := True;
+
+    //CalcularMelhorItem
+    for I := 0 to (Length(aItens)-1) do begin
+        if I = 0 then
+            begin
+              MItem.CodItem    := aItens[I].CodItem;
+              MItem.Marca      := aItens[I].Marca;
+              MItem.Capacidade := aItens[I].Capacidade;
+              MItem.ValUnit    := aItens[I].ValUnit;
+              MItem.ValLitro   := aItens[I].ValLitro;
+            end
+        else
+            if aItens[I].ValLitro<MItem.ValLitro then begin
+                MItem.CodItem    := aItens[I].CodItem;
+                MItem.Marca      := aItens[I].Marca;
+                MItem.Capacidade := aItens[I].Capacidade;
+                MItem.ValUnit    := aItens[I].ValUnit;
+                MItem.ValLitro   := aItens[I].ValLitro;
+            end;
+    end;
+    lblEscolha.Text := MItem.Marca+' de '+IntTOStr(MItem.Capacidade)+' ml por R$ '
+                      +FormatFloat('###,##0.00',MItem.ValUnit)+' a unidade!';
+    Animat_Item.Inverse := True;
+    Animat_Item.Start;
+
 end;
 
 procedure TfrmMain.btnLimpaListaClick(Sender: TObject);
@@ -508,6 +602,29 @@ begin
         DataM.qry_Marcas.Post;
       end;
     end;
+
+    if lbl_Edt_AddEd.Text='Incluir Capacidade' then begin
+      DataM.qry_Capacidades.Append;
+
+      DataM.qry_geral.Active := False;
+      DataM.qry_geral.SQL.Clear;
+      DataM.qry_geral.SQL.Add('SELECT IFNULL(MAX(ID_CAPACIDADE), 0) AS ID_CAPACIDADE FROM TAB_CAPACIDADES');
+      DataM.qry_geral.Active := True;
+
+      DataM.qry_Capacidades.FieldByName('ID_CAPACIDADE').Value := DataM.qry_geral.FieldByName('ID_CAPACIDADE').AsInteger + 1;
+
+      DataM.qry_Capacidades.FieldByName('CAPACIDADE').Value := edt_AddEd.Text;
+      DataM.qry_Capacidades.Post;
+    end;
+
+    if lbl_Edt_AddEd.Text='Editar Capacidade' then begin
+      if (DataM.qry_Capacidades.State in dsEditModes) then begin
+        DataM.qry_Capacidades.FieldByName('CAPACIDADE').Value := edt_AddEd.Text;
+        DataM.qry_Capacidades.Post;
+      end;
+    end;
+
+
     if TPlatformServices.Current.SupportsPlatformService(IFMXVirtualKeyboardService, IInterface(KeyboardService)) then
       KeyboardService.HideVirtualKeyboard;
     sbtnMarcaAdd.Enabled := True;
@@ -533,6 +650,8 @@ begin
     NItem := 0;
     SetLength(aItens, 0);
     aItens := nil;
+    lytItem.Position.X := -285;
+    lytEdit.Position.X := -285;
 end;
 
 procedure TfrmMain.FormShow(Sender: TObject);
@@ -704,11 +823,6 @@ begin
     SelecionaAba(Layout_aba1);
 
     rctControls.Visible := true;
-//    ResizeObjects;
-{    AddItem('001','Skol','476',2.98,6);
-    AddItem('002','Brahma','267',1.98,8.9);
-    AddItem('003','Stella','375',3.98,10.01);
-    AddItem('004','Walls','350',3.57,7.58);}
 end;
 
 end.

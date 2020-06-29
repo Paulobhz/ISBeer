@@ -141,6 +141,8 @@ type
     LinkListControlToField3: TLinkListControlToField;
     LinkListControlToField4: TLinkListControlToField;
     Animat_Show_Capacidades: TFloatAnimation;
+    rct_AddEd_Excluir: TRectangle;
+    btn_AddEd_excluir: TSpeedButton;
     procedure FormCreate(Sender: TObject);
     procedure tmrSplashTimer(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -163,6 +165,7 @@ type
       var KeyChar: Char; Shift: TShiftState);
     procedure btnItemOkClick(Sender: TObject);
     procedure Animat_ItemFinish(Sender: TObject);
+    procedure btn_AddEd_excluirClick(Sender: TObject);
   private
     procedure SelecionaAba(lyt: Tlayout);
     procedure PaintIcon(aba: Integer);
@@ -636,6 +639,34 @@ begin
 
 end;
 
+procedure TfrmMain.btn_AddEd_excluirClick(Sender: TObject);
+var
+  KeyboardService: IFMXVirtualKeyboardService;
+begin
+    if lbl_Edt_AddEd.Text='Editar Marca' then begin
+      if (DataM.qry_Marcas.State in dsEditModes) then begin
+        DataM.qry_Marcas.Delete;
+      end;
+    end;
+
+    if lbl_Edt_AddEd.Text='Editar Capacidade' then begin
+      if (DataM.qry_Capacidades.State in dsEditModes) then begin
+        DataM.qry_Capacidades.Delete;
+      end;
+    end;
+
+
+    if TPlatformServices.Current.SupportsPlatformService(IFMXVirtualKeyboardService, IInterface(KeyboardService)) then
+      KeyboardService.HideVirtualKeyboard;
+    sbtnMarcaAdd.Enabled := True;
+    sbtnCapaAdd.Enabled  := True;
+    rctControls.Enabled  := True;
+
+    Animat_Edit.Inverse := True;
+    Animat_Edit.Start;
+
+end;
+
 procedure TfrmMain.edtValUnitKeyDown(Sender: TObject; var Key: Word;
   var KeyChar: Char; Shift: TShiftState);
 begin
@@ -750,6 +781,16 @@ begin
     sbtnMarcaAdd.Enabled := False;
     sbtnCapaAdd.Enabled  := False;
     lytEdit.Visible      := True;
+    if aOperAcao='A' then begin //Alteração
+        rct_AddEd_Ok.Width := 200;
+        rct_AddEd_Ok.Position.X := 79;
+        rct_AddEd_Excluir.Visible := True;
+    end else begin //Inclusao
+        rct_AddEd_Ok.Position.X := 5;
+        rct_AddEd_Ok.Width := 270;
+        rct_AddEd_Excluir.Visible := False;
+    end;
+
     if aAba = 'M' then begin
         Animat_Fade_Marcas.Start;
         if aOperAcao='A' then begin //Alteração

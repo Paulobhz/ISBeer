@@ -79,9 +79,6 @@ Coordinates=637,276,61,36
 [lblMarcas]
 Coordinates=10,256,70,58
 
-[rctHeader]
-Coordinates=175,324,71,36
-
 [tbiSplash]
 Coordinates=97,324,68,36
 
@@ -123,7 +120,7 @@ Coordinates=10,10,107,168
 Visible=True
 
 []
-Coordinates=571,521,75,33
+Coordinates=175,324,71,36
 Visible=True
 
 [Module Settings]
@@ -241,9 +238,6 @@ Coordinates=232,252,53,58
 [rct_AddEd_Fundo]
 Coordinates=933,111,118,36
 
-[Image1]
-Coordinates=671,515,57,58
-
 [btn_AddEd_Ok]
 Coordinates=551,515,101,58
 
@@ -282,4 +276,7 @@ Coordinates=933,221,80,36
 
 [Animat_Item]
 Coordinates=933,1,108,36
+
+[img_toolbar]
+Coordinates=671,515,57,58
 

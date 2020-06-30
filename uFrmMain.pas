@@ -60,7 +60,6 @@ type
     actList: TActionList;
     actTab1: TChangeTabAction;
     lytMain: TLayout;
-    rctHeader: TRectangle;
     lblToolbar: TLabel;
     actTab3: TChangeTabAction;
     lytCapacidade: TLayout;
@@ -114,7 +113,7 @@ type
     Path3: TPath;
     btnLimpaLista: TSpeedButton;
     Path4: TPath;
-    Image1: TImage;
+    img_toolbar: TImage;
     lytEdit: TLayout;
     rct_AddEd_Fundo: TRectangle;
     lbl_edt_AddEd: TLabel;
@@ -180,11 +179,13 @@ type
   end;
 
 var
-  frmMain: TfrmMain;
-  vSoft, vVersionDB: String;
-  Operacao : Char;
-  Nitem : Integer;
-  aItens : Array of TItem;
+  frmMain   : TfrmMain;
+  vSoft,
+  vVersionDB: String;
+  Operacao  : Char;
+  Nitem     : Integer;
+  aItens    : Array of TItem;
+  IncItem   : Boolean;
 Const
   vVersion = '0.00.000';
   StVazio  = 'Irmos comprar mais cerveja !!!';
@@ -289,14 +290,11 @@ begin
   with rect do
   begin
       Align         := TAlignLayout.Top;
-      Height        := 60;
+      Height        := 70;
       Fill.Color    := $FFFFFFFF;
       Stroke.Kind   := TBrushKind.Solid;
       Stroke.Color  := $FFd4d5d7;
-{      if codItem='001' then
-        Margins.Top   := 150
-      else
- }       Margins.Top   := 10;
+      Margins.Top   := 10;
       Margins.Left  := 10;
       Margins.Right := 10;
       XRadius := 8;
@@ -314,7 +312,7 @@ begin
   with rect_barra do
   begin
       Align         := TAlignLayout.Bottom;
-      Height        := 30;
+      Height        := 35;
       Fill.Color    := $FFF4F4F4;
       Stroke.Kind   := TBrushKind.Solid;
       Stroke.Color  := $FFd4d5d7;

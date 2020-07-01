@@ -120,7 +120,7 @@ Coordinates=10,10,107,168
 Visible=True
 
 []
-Coordinates=175,324,71,36
+Coordinates=670,330,101,146
 Visible=True
 
 [Module Settings]
@@ -192,16 +192,6 @@ Coordinates=344,494,40,36
 [lytEdit]
 Coordinates=285,494,50,36
 
-[Label6]
-Coordinates=120,78,53,58
-
-[cbxMarca]
-Coordinates=670,330,101,146
-Visible=True
-
-[cbxCapacidade]
-Coordinates=410,90,103,146
-
 [Animat_Fade_Capacidades]
 Coordinates=1079,1,173,36
 
@@ -220,14 +210,8 @@ Coordinates=120,1,62,58
 [rct_AddEd_Edit]
 Coordinates=933,56,104,36
 
-[Label4]
-Coordinates=559,223,53,58
-
 [edtValUnit]
 Coordinates=761,267,74,58
-
-[Label5]
-Coordinates=560,311,53,58
 
 [btnLimpaLista]
 Coordinates=330,398,95,58

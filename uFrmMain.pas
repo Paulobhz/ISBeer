@@ -131,17 +131,14 @@ type
     edtValUnit: TEdit;
     Animat_Item: TFloatAnimation;
     rctMarca: TRectangle;
-    cbxMarca: TComboBox;
-    Label4: TLabel;
-    Label5: TLabel;
     rctCapacidade: TRectangle;
-    cbxCapacidade: TComboBox;
-    Label6: TLabel;
-    LinkListControlToField3: TLinkListControlToField;
-    LinkListControlToField4: TLinkListControlToField;
     Animat_Show_Capacidades: TFloatAnimation;
     rct_AddEd_Excluir: TRectangle;
     btn_AddEd_excluir: TSpeedButton;
+    edt_capacidade: TEdit;
+    img_combo_capacidade: TImage;
+    img_combo_marca: TImage;
+    edt_marca: TEdit;
     procedure FormCreate(Sender: TObject);
     procedure tmrSplashTimer(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -165,6 +162,8 @@ type
     procedure btnItemOkClick(Sender: TObject);
     procedure Animat_ItemFinish(Sender: TObject);
     procedure btn_AddEd_excluirClick(Sender: TObject);
+    procedure img_combo_capacidadeClick(Sender: TObject);
+    procedure img_combo_marcaClick(Sender: TObject);
   private
     procedure SelecionaAba(lyt: Tlayout);
     procedure PaintIcon(aba: Integer);
@@ -477,16 +476,17 @@ end;
 
 procedure TfrmMain.btnAddItemClick(Sender: TObject);
 begin
-    btnAddItem.Enabled := False;
-    btnLimpaLista.Enabled := False;
-    rctControls.Enabled := False;
-    lblItem.Text := 'Incluir Item';
-    edtValUnit.Text := '';
-    cbxMarca.ItemIndex :=-1;
-    cbxCapacidade.ItemIndex := -1;
+    btnAddItem.Enabled      := False;
+    btnLimpaLista.Enabled   := False;
+    rctControls.Enabled     := False;
+    lblItem.Text            := 'Incluir Item';
+    edtValUnit.Text         := '';
+    edt_marca.Text          := '';
+    edt_capacidade.Text     := '';
+    IncItem                 := True;
 
-    Animat_Item.StopValue := ((FrmMain.Width/2)-140);
-    Animat_Item.Inverse := False;
+    Animat_Item.StopValue   := ((FrmMain.Width/2)-140);
+    Animat_Item.Inverse     := False;
 
     Animat_Item.Start;
 end;
@@ -500,13 +500,14 @@ var
   MItem : TItem;
 begin
 
-    if (edtValUnit.Text='')or(cbxMarca.ItemIndex=-1)or(cbxCapacidade.ItemIndex=-1) then  begin
+    if (edtValUnit.Text='')or(edt_marca.Text='')or(edt_capacidade.Text='')then  begin
       ShowMessage('TODOS os campos devem estar preenchidos!');
       exit;
     end;
 
+    IncItem     := False;
     ValorUnit   := StrToFloat(edtValUnit.Text);
-    CapacidadeD := StrToInt(cbxCapacidade.Items[cbxCapacidade.ItemIndex]);
+    CapacidadeD := StrToInt(edt_capacidade.Text);
     ValorLitro  := (ValorUnit*1000)/CapacidadeD;
 
     if lblItem.Text='Incluir Item' then begin
@@ -514,15 +515,15 @@ begin
         SetLength(aItens,Length(aItens)+1);
         with aItens[Length(aItens)-1] do begin
             CodItem    := nItem.ToString;
-            Marca      := cbxMarca.Items[cbxMarca.ItemIndex];
+            Marca      := edt_marca.Text;
             Capacidade := CapacidadeD;
             ValUnit    := ValorUnit;
             ValLitro   := ValorLitro;
         end;
         //incluir no vetor
         AddItem(nItem.ToString,                              //codItem
-                cbxMarca.Items[cbxMarca.ItemIndex],
-                cbxCapacidade.Items[cbxCapacidade.ItemIndex],
+                edt_marca.Text,
+                edt_capacidade.Text,
                 ValorUnit,
                 ValorLitro);
 
@@ -687,6 +688,17 @@ procedure TfrmMain.FormShow(Sender: TObject);
 begin
     rctControls.Visible := false;
     lblEscolha.Text     := StVazio;
+    IncItem             := False;
+end;
+
+procedure TfrmMain.img_combo_capacidadeClick(Sender: TObject);
+begin
+    actTab3.Execute;
+end;
+
+procedure TfrmMain.img_combo_marcaClick(Sender: TObject);
+begin
+    actTab2.Execute;
 end;
 
 procedure TfrmMain.PaintIcon(aba : Integer);
@@ -752,23 +764,30 @@ end;
 procedure TfrmMain.lstCapacidadesItemClick(const Sender: TObject;
   const AItem: TListViewItem);
 begin
-
-    OpenAddEdItem('C','A',AItem.Text);
+    if IncItem then begin
+        edt_capacidade.Text := AItem.Text;
+        actTab1.Execute;
+    end else
+        OpenAddEdItem('C','A',AItem.Text);
 
 end;
 
 procedure TfrmMain.lstMarcasDeleteItem(Sender: TObject; AIndex: Integer);
 begin
-    DataM.qry_Marcas.Edit;
-    DataM.qry_Marcas.Delete;
+{    DataM.qry_Marcas.Edit;
+    DataM.qry_Marcas.Delete; }
 end;
 
 
 procedure TfrmMain.lstMarcasItemClick(const Sender: TObject;
   const AItem: TListViewItem);
 begin
+    if IncItem then begin
+        edt_marca.Text := AItem.Text;
+        actTab1.Execute;
 
-    OpenAddEdItem('M','A',AItem.Text);
+    end else
+        OpenAddEdItem('M','A',AItem.Text);
 
 end;
 

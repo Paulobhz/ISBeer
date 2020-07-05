@@ -164,6 +164,7 @@ type
     procedure btn_AddEd_excluirClick(Sender: TObject);
     procedure img_combo_capacidadeClick(Sender: TObject);
     procedure img_combo_marcaClick(Sender: TObject);
+    procedure edt_marcaExit(Sender: TObject);
   private
     procedure SelecionaAba(lyt: Tlayout);
     procedure PaintIcon(aba: Integer);
@@ -498,6 +499,8 @@ var
   CapacidadeD : integer;
   I : Integer;
   MItem : TItem;
+  KeyboardService: IFMXVirtualKeyboardService;
+
 begin
 
     if (edtValUnit.Text='')or(edt_marca.Text='')or(edt_capacidade.Text='')then  begin
@@ -555,6 +558,9 @@ begin
                 MItem.ValLitro   := aItens[I].ValLitro;
             end;
     end;
+    if TPlatformServices.Current.SupportsPlatformService(IFMXVirtualKeyboardService, IInterface(KeyboardService)) then
+      KeyboardService.HideVirtualKeyboard;
+
     lblEscolha.Text := MItem.Marca+' de '+IntTOStr(MItem.Capacidade)+' ml por R$ '
                       +FormatFloat('###,##0.00',MItem.ValUnit)+' a unidade!';
     Animat_Item.Inverse := True;
@@ -670,6 +676,11 @@ procedure TfrmMain.edtValUnitKeyDown(Sender: TObject; var Key: Word;
   var KeyChar: Char; Shift: TShiftState);
 begin
     FormatarMoeda(edtValUnit,KeyChar);
+end;
+
+procedure TfrmMain.edt_marcaExit(Sender: TObject);
+begin
+    btnItemOkClick(Self);
 end;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
